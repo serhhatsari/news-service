@@ -2,6 +2,21 @@
 
 News Service implemented using Spring Boot and MySQL.
 
+## Production  
+You can access the API by sending request to the following API:  
+
+```
+https://news-service-4bszhyapna-ey.a.run.app  
+```
+
+#### Swagger Page
+
+Any endpoint that is exposed by the server can be accessible in the following website:  
+
+```
+https://news-service-4bszhyapna-ey.a.run.app/swagger-ui/index.html    
+```
+
 ## Installation
 
 You can install the project using the following command:
