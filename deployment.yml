@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: news-service
+  template:
+    metadata:
+      labels:
+        app: news-service
+    spec:
+      containers:
+        - name: news-service
+          image: serhhatsari/news-service
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/news-db?createDatabaseIfNotExist=true&useSSL=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: dev
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: dev
+            - name: NEWS_API_KEY
+              value: d38249f41bea182982170b43dc29f612
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: news-service
+spec:
+  type: NodePort
+  selector:
+    app: news-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 32100
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: news-db
+            - name: MYSQL_USER
+              value: dev
+            - name: MYSQL_PASSWORD
+              value: dev
+          resources:
+            limits:
+              memory: "4000Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: NodePort
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 32002
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mysql-volume"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
