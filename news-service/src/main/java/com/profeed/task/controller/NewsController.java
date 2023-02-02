@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://news-service-4bszhyapna-ey.a.run.app", maxAge = 3600)
 public class NewsController {
     private final NewsService newsService;
 
