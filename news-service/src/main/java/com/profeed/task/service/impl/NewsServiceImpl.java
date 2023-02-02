@@ -67,6 +67,8 @@ public class NewsServiceImpl implements NewsService {
         }
     }
 
+
+
     @Override
     public List<NewsDto> filterNews(int page, int size, String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {
 
@@ -106,10 +108,10 @@ public class NewsServiceImpl implements NewsService {
         if (start > filteredNews.size()) {
             return paginatedNews;
         }
+
         if (end > filteredNews.size()) {
             end = filteredNews.size();
         }
-
 
         paginatedNews = filteredNews.subList(start, end);
 
