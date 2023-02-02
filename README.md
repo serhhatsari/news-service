@@ -27,8 +27,12 @@ git clone https://github.com/serhhatsari/news-service
 
 ## Running with Docker Compose
 
-You can start the server using the following command:
+In order to run the server with docker compose, add your api key to the docker compose file:  
+```
+NEWS_API_KEY=<your-api-key>  
+```
 
+Then, can start the server using the following command:
 ```
 docker compose up --build -d
 ```
@@ -52,6 +56,43 @@ Any endpoint that is exposed by the server can be accessible at the /swagger-ui/
 ```
 eg: http://localhost:8080/swagger-ui/index.html
 ```
+
+## Running with Kubernetes
+
+In order to deploy the server to the k8s, add your api key to the deployment.yml file.    
+```
+- name: NEWS_API_KEY  
+  value: <your-api-key>  
+```
+
+After that, you can deploy the server to the k8s using the following command:
+
+```
+kubectl apply -f deployment.yml
+```
+
+If you are using minikube, then run the following command to generate a URL to access the server:
+
+```
+minikube service blog-service --url
+```
+
+Server is now accessible at the URL given by minikube.
+
+You can delete the server from k8s using the following command:
+
+```
+kubectl delete -f deployment.yml
+```
+
+#### Swagger Page
+
+Any endpoint that is exposed by the server can be accessible at the /swagger-ui/index.html endpoint.
+
+```
+eg: http://localhost:8080/swagger-ui/index.html
+```
+
 
 ## Local Development
 
