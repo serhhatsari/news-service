@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=news-db
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=dev
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/news-db?createDatabaseIfNotExist=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=dev
+      - SPRING_DATASOURCE_PASSWORD=dev
+      - NEWS_API_KEY=<your-api-key>
+    depends_on:
+      - db
