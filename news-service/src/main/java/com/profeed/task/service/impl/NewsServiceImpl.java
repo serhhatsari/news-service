@@ -40,7 +40,7 @@ public class NewsServiceImpl implements NewsService {
     private String NEWS_API_KEY;
 
     @Override
-    @Scheduled(fixedRate = 600000)
+    @Scheduled(fixedRate = 6000000)
     public void fetchNews() {
         HttpClient client = HttpClient.newHttpClient();
         Gson gson = new Gson();
