@@ -27,7 +27,7 @@ public class NewsEntity {
     @Column(name = "description", length = 100000)
     private String description;
 
-    @Column(name = "url", length = 100000)
+    @Column(name = "url", length = 250, unique = true, nullable = false)
     private String url;
 
     @Column(name ="source", length = 10000)
