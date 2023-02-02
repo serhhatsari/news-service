@@ -40,42 +40,53 @@ public class NewsServiceImpl implements NewsService {
     private String NEWS_API_KEY;
 
     @Override
-    @Scheduled(fixedRate = 6000000)
+    @Scheduled(fixedRate = 600000)
     public void fetchNews() {
         HttpClient client = HttpClient.newHttpClient();
         Gson gson = new Gson();
-        String fullUrl = UrlConstants.NEWS_API_URL+"?access_key="+NEWS_API_KEY +"&limit=100";
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create(fullUrl))
-                .build();
+        HttpRequest request = buildRequest();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JsonObject jsonObject = gson.fromJson(response.body(), JsonObject.class);
             JsonArray data = jsonObject.getAsJsonArray("data");
-            for(JsonElement element : data) {
-                NewsEntity newsEntity = gson.fromJson(element, NewsEntity.class);
-                try {
-                    newsRepository.save(newsEntity);
-                } catch (Exception e) {
-                    System.out.println("News already exists");
-                }
-            }
+            saveNews(data);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
+    private HttpRequest buildRequest() {
+        String fullUrl = UrlConstants.NEWS_API_URL+"?access_key="+NEWS_API_KEY +"&limit=100";
+
+        return HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(fullUrl))
+                .build();
+    }
+
+    private void saveNews(JsonArray news) {
+        Gson gson = new Gson();
+        for(JsonElement element : news) {
+            NewsEntity newsEntity = gson.fromJson(element, NewsEntity.class);
+            try {
+                newsRepository.save(newsEntity);
+            } catch (Exception e) {
+                System.out.println("News already exists");
+            }
+        }
+    }
+
     @Override
     public List<NewsDto> filterNews(int page, int size, String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {
+        List<NewsDto> filteredNews = getFilteredNews(source, publishedDateStart, publishedDateEnd, titleContains, country, language);
+        return getPage(filteredNews, page, size);
+    }
 
-        List<NewsDto> paginatedNews = new ArrayList<>();
-
+    private List<NewsDto> getFilteredNews(String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {
         List<NewsEntity> allNews = newsRepository.findAll();
 
-        List<NewsDto> filteredNews = allNews.stream()
+        return allNews.stream()
                 .filter(n -> (source == null || n.getSource().equals(source)) &&
                         (publishedDateStart == null || !n.getPublished_at().before(publishedDateStart)) &&
                         (publishedDateEnd == null || !n.getPublished_at().after(publishedDateEnd)) &&
@@ -84,21 +95,21 @@ public class NewsServiceImpl implements NewsService {
                         (language == null || n.getLanguage().equals(language)))
                 .map(NewsConverter::convertToDto)
                 .collect(Collectors.toList());
+    }
 
+    private List<NewsDto> getPage(List<NewsDto> filteredNews, int page, int size) {
         int start = page * size;
         int end = start + size;
 
         if (start > filteredNews.size() || page < 0 || size < 0) {
-            return paginatedNews;
+            return new ArrayList<>();
         }
 
         if (end > filteredNews.size()) {
             end = filteredNews.size();
         }
 
-        paginatedNews = filteredNews.subList(start, end);
-
-        return paginatedNews;
+        return filteredNews.subList(start, end);
     }
 
 }
