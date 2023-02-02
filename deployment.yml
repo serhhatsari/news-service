@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: news-service
-          image: serhhatsari/news-service
+          image: serhhatsari/news-service:latest
+          imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/news-db?createDatabaseIfNotExist=true&useSSL=false
@@ -23,13 +24,9 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               value: dev
             - name: NEWS_API_KEY
-              value: d38249f41bea182982170b43dc29f612
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+              value: <your-api-key>
           ports:
-            - containerPort: 3000
+            - containerPort: 8080
 ---
 
 apiVersion: v1
