@@ -15,11 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
+@CrossOrigin
 public class NewsController {
     private final NewsService newsService;
 
     @GetMapping("/news")
-    @CrossOrigin
+
     public ResponseEntity<List<NewsDto>> getNews(@RequestParam(value = "page", required = true) int page, @RequestParam(value = "size", required = true) int size, @RequestParam(value = "source", required = false) String source, @RequestParam(value = "publishedDateStart", required=false)  @DateTimeFormat(pattern="yyyy-MM-dd") Date publishedDateStart, @RequestParam(value = "publishedDateEnd", required=false) @DateTimeFormat(pattern="yyyy-MM-dd") Date publishedDateEnd, @RequestParam(value="titleContains", required=false) String titleContains, @RequestParam(value="country", required=false) String country, @RequestParam(value = "language", required=false) String language) {
         return new ResponseEntity<>(newsService.filterNews(page, size, source, publishedDateStart, publishedDateEnd, titleContains, country, language), HttpStatus.OK);
     }
