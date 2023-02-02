@@ -74,6 +74,10 @@ public class NewsServiceImpl implements NewsService {
         List<NewsDto> paginatedNews = new ArrayList<>();
         List<NewsEntity> allNews = newsRepository.findAll();
 
+        if (page < 0 || size < 0) {
+            return paginatedNews;
+        }
+
         for (NewsEntity news : allNews) {
             if (source != null && !news.getSource().equals(source)) {
                 continue;
