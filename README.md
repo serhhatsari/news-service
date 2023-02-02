@@ -1,5 +1,7 @@
 # profeed-task
 
-TODO:  
-- Swagger  
+TODO:
 - Kubernetes  
+
+
+Swagger: http://localhost:8080/swagger-ui/index.html

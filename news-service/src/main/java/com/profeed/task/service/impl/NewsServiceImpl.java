@@ -98,7 +98,6 @@ public class NewsServiceImpl implements NewsService {
         int start = page * size;
         int end = start + size;
 
-        // check boundary conditions
         if (start > filteredNews.size()) {
             return paginatedNews;
         }
