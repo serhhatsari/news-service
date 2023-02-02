@@ -67,12 +67,18 @@ public class NewsServiceImpl implements NewsService {
         }
     }
 
+
+
     @Override
     public List<NewsDto> filterNews(int page, int size, String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {
 
         List<NewsDto> filteredNews = new ArrayList<>();
         List<NewsDto> paginatedNews = new ArrayList<>();
         List<NewsEntity> allNews = newsRepository.findAll();
+
+        if (page < 0 || size < 0) {
+            return paginatedNews;
+        }
 
         for (NewsEntity news : allNews) {
             if (source != null && !news.getSource().equals(source)) {
@@ -102,10 +108,10 @@ public class NewsServiceImpl implements NewsService {
         if (start > filteredNews.size()) {
             return paginatedNews;
         }
+
         if (end > filteredNews.size()) {
             end = filteredNews.size();
         }
-
 
         paginatedNews = filteredNews.subList(start, end);
 
