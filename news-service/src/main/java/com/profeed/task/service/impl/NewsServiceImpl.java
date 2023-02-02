@@ -29,6 +29,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,45 +68,27 @@ public class NewsServiceImpl implements NewsService {
         }
     }
 
-
-
     @Override
     public List<NewsDto> filterNews(int page, int size, String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {
 
-        List<NewsDto> filteredNews = new ArrayList<>();
         List<NewsDto> paginatedNews = new ArrayList<>();
+
         List<NewsEntity> allNews = newsRepository.findAll();
 
-        if (page < 0 || size < 0) {
-            return paginatedNews;
-        }
-
-        for (NewsEntity news : allNews) {
-            if (source != null && !news.getSource().equals(source)) {
-                continue;
-            }
-            if (publishedDateStart != null && news.getPublished_at().before(publishedDateStart)) {
-                continue;
-            }
-            if (publishedDateEnd != null && news.getPublished_at().after(publishedDateEnd)) {
-                continue;
-            }
-            if (titleContains != null && !news.getTitle().contains(titleContains)) {
-                continue;
-            }
-            if (country != null && !news.getCountry().equals(country)) {
-                continue;
-            }
-            if (language != null && !news.getLanguage().equals(language)) {
-                continue;
-            }
-            filteredNews.add(NewsConverter.convertToDto(news));
-        }
+        List<NewsDto> filteredNews = allNews.stream()
+                .filter(n -> (source == null || n.getSource().equals(source)) &&
+                        (publishedDateStart == null || !n.getPublished_at().before(publishedDateStart)) &&
+                        (publishedDateEnd == null || !n.getPublished_at().after(publishedDateEnd)) &&
+                        (titleContains == null || n.getTitle().contains(titleContains)) &&
+                        (country == null || n.getCountry().equals(country)) &&
+                        (language == null || n.getLanguage().equals(language)))
+                .map(NewsConverter::convertToDto)
+                .collect(Collectors.toList());
 
         int start = page * size;
         int end = start + size;
 
-        if (start > filteredNews.size()) {
+        if (start > filteredNews.size() || page < 0 || size < 0) {
             return paginatedNews;
         }
 
