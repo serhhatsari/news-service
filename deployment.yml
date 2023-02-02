@@ -24,7 +24,7 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               value: dev
             - name: NEWS_API_KEY
-              value: d38249f41bea182982170b43dc29f612
+              value: <your-api-key>
           ports:
             - containerPort: 8080
 ---
