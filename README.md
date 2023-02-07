@@ -10,9 +10,8 @@ git clone https://github.com/serhhatsari/news-service
 
 ## Running with Docker Compose
 
-In order to run the server with docker compose,
-create an API KEY at https://mediastack.com and 
-add your api key to the docker compose file:  
+In order to run the server with docker compose, create an ```API KEY``` at https://mediastack.com,  
+then add your ```API KEY``` to the docker compose file:   
 
 ```
 NEWS_API_KEY=<your-api-key>  
@@ -42,9 +41,9 @@ eg: http://localhost:8080/swagger-ui/index.html
 ```
 
 ## Running with Kubernetes
-In order to deploy the server to k8s,
-create an API KEY at https://mediastack.com and
-add your api key to the docker compose file:  ```
+In order to deploy the server to k8s, create an ```API KEY``` at https://mediastack.com,  
+then add your ```API KEY``` to the deployment file:  
+```
 - name: NEWS_API_KEY  
   value: <your-api-key>  
 ```
