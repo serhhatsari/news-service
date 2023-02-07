@@ -1,4 +1,4 @@
-package com.profeed.task.service.impl;
+package com.serhat.newsservice.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

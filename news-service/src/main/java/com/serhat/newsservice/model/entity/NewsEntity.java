@@ -1,4 +1,4 @@
-package com.profeed.task.model.entity;
+package com.serhat.newsservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

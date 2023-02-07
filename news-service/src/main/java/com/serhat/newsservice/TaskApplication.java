@@ -1,4 +1,4 @@
-package com.profeed.task;
+package com.serhat.newsservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

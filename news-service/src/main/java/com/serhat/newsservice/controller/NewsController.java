@@ -1,4 +1,4 @@
-package com.profeed.task.controller;
+package com.serhat.newsservice.controller;
 
 
 import com.profeed.task.model.dto.NewsDto;
