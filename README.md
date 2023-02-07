@@ -2,27 +2,11 @@
 
 News Service implemented using Spring Boot and MySQL.
 
-## Production  
-You can access the API by sending request to the following API:  
-
-```
-https://news-service-4bszhyapna-ey.a.run.app  
-```
-#### Swagger Page
-Any endpoint that is exposed by the server can be accessible in the following website:  
-```
-https://news-service-4bszhyapna-ey.a.run.app/swagger-ui/index.html    
-```
-
-
-
 ## Installation
 You can install the project using the following command:
 ```
 git clone https://github.com/serhhatsari/news-service
 ```
-
-
 
 ## Running with Docker Compose
 
@@ -53,8 +37,6 @@ Any endpoint that is exposed by the server can be accessible at the /swagger-ui/
 ```
 eg: http://localhost:8080/swagger-ui/index.html
 ```
-
-
 
 ## Running with Kubernetes
 In order to deploy the server to the k8s, add your api key to the deployment.yml file.    
@@ -89,8 +71,6 @@ Any endpoint that is exposed by the server can be accessible at the /swagger-ui/
 ```
 eg: http://localhost:8080/swagger-ui/index.html
 ```
-
-
 
 ## Local Development
 
