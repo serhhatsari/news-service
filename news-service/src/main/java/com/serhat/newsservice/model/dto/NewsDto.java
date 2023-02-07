@@ -1,4 +1,4 @@
-package com.profeed.task.model.dto;
+package com.serhat.newsservice.model.dto;
 
 import lombok.Builder;
 import lombok.Data;

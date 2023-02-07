@@ -1,4 +1,4 @@
-package com.profeed.task.constants;
+package com.serhat.newsservice.constants;
 
 
 public class UrlConstants {

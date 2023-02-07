@@ -1,4 +1,4 @@
-package com.profeed.task.model.converter;
+package com.serhat.newsservice.model.converter;
 
 import com.profeed.task.model.dto.NewsDto;
 import com.profeed.task.model.entity.NewsEntity;
