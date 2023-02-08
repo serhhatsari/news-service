@@ -1,6 +1,6 @@
-package com.serhat.newsservice.task.repository;
+package com.serhat.newsservice.repository;
 
-import com.profeed.task.model.entity.NewsEntity;
+import com.serhat.newsservice.model.entity.NewsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NewsRepository extends JpaRepository<NewsEntity, Long> {
