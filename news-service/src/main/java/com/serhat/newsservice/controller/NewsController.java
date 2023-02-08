@@ -23,17 +23,17 @@ public class NewsController {
         return new ResponseEntity<>(newsService.filterNews(page, size, source, publishedDateStart, publishedDateEnd, titleContains, country, language), HttpStatus.OK);
     }
 
-    @GetMapping("/news/{category}")
+    @GetMapping("/news/category/{category}")
     public ResponseEntity<List<NewsDto>> getNewsByCategory(@PathVariable("category") String category, @RequestParam(value = "page", required = true) int page, @RequestParam(value = "size", required = true) int size) {
         return new ResponseEntity<>(newsService.getNewsByCategory(page, size, category), HttpStatus.OK);
     }
 
-    @GetMapping("/news/{country}")
+    @GetMapping("/news/country/{country}")
     public ResponseEntity<List<NewsDto>> getNewsByCountry(@PathVariable("country") String country, @RequestParam(value = "page", required = true) int page, @RequestParam(value = "size", required = true) int size) {
         return new ResponseEntity<>(newsService.getNewsByCountry(page, size, country), HttpStatus.OK);
     }
 
-    @GetMapping("/news/{language}")
+    @GetMapping("/news/lang/{language}")
     public ResponseEntity<List<NewsDto>> getNewsByLanguage(@PathVariable("language") String language, @RequestParam(value = "page", required = true) int page, @RequestParam(value = "size", required = true) int size) {
         return new ResponseEntity<>(newsService.getNewsByLanguage(page, size, language), HttpStatus.OK);
     }
