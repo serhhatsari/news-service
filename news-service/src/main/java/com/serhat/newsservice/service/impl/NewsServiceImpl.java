@@ -113,7 +113,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<NewsDto> getLatestNews() {
-        List<NewsEntity> newsEntities = newsRepository.findTop10ByOrderByPublished_atDesc().orElse(Collections.emptyList());
+        List<NewsEntity> newsEntities = newsRepository.findLastNEntriesByPublishedAt(10).orElse(Collections.emptyList());
         return newsEntities.stream()
                 .map(NewsConverter::convertToDto)
                 .collect(Collectors.toList());
