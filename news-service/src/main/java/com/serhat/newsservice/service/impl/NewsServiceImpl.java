@@ -4,12 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.profeed.task.constants.UrlConstants;
-import com.profeed.task.model.converter.NewsConverter;
-import com.profeed.task.model.dto.NewsDto;
-import com.profeed.task.model.entity.NewsEntity;
-import com.profeed.task.repository.NewsRepository;
-import com.profeed.task.service.NewsService;
+import com.serhat.newsservice.constants.UrlConstants;
+import com.serhat.newsservice.model.converter.NewsConverter;
+import com.serhat.newsservice.model.dto.NewsDto;
+import com.serhat.newsservice.model.entity.NewsEntity;
+import com.serhat.newsservice.repository.NewsRepository;
+import com.serhat.newsservice.service.NewsService;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
-
     @Value("${news.api.key}")
     private String NEWS_API_KEY;
 
@@ -81,6 +80,26 @@ public class NewsServiceImpl implements NewsService {
     public List<NewsDto> filterNews(int page, int size, String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {
         List<NewsDto> filteredNews = getFilteredNews(source, publishedDateStart, publishedDateEnd, titleContains, country, language);
         return getPage(filteredNews, page, size);
+    }
+
+    @Override
+    public List<NewsDto> getNewsByCategory(int page, int size, String category) {
+        return null;
+    }
+
+    @Override
+    public List<NewsDto> getNewsByCountry(int page, int size, String country) {
+        return null;
+    }
+
+    @Override
+    public List<NewsDto> getNewsByLanguage(int page, int size, String language) {
+        return null;
+    }
+
+    @Override
+    public List<NewsDto> getLatestNews() {
+        return null;
     }
 
     private List<NewsDto> getFilteredNews(String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {

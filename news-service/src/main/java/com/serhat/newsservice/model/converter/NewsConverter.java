@@ -1,7 +1,7 @@
 package com.serhat.newsservice.model.converter;
 
-import com.profeed.task.model.dto.NewsDto;
-import com.profeed.task.model.entity.NewsEntity;
+import com.serhat.newsservice.model.dto.NewsDto;
+import com.serhat.newsservice.model.entity.NewsEntity;
 
 public class NewsConverter {
 
