@@ -120,6 +120,15 @@ public class NewsServiceImpl implements NewsService {
 
     }
 
+    @Override
+    public List<NewsDto> getNews(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<NewsEntity> newsEntities = newsRepository.findAll(pageable);
+        return newsEntities.stream()
+                .map(NewsConverter::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     private List<NewsDto> getFilteredNews(String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {
         List<NewsEntity> allNews = newsRepository.findAll();
 

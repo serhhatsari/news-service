@@ -17,4 +17,5 @@ public interface NewsService {
     public List<NewsDto> getNewsByLanguage(int page, int size, String language);
 
     public List<NewsDto> getLatestNews();
+    public List<NewsDto> getNews(int page, int size);
 }
