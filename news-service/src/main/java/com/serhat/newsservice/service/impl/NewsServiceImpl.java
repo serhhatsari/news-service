@@ -26,9 +26,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.util.UriBuilder;
 
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,22 +82,42 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<NewsDto> getNewsByCategory(int page, int size, String category) {
-        return null;
+        List<NewsEntity> newsEntities = newsRepository.findByCategory(category)
+                .orElse(Collections.emptyList());
+        List<NewsDto> newsDtoList = newsEntities.stream()
+                .map(NewsConverter::convertToDto)
+                .collect(Collectors.toList());
+        return getPage(newsDtoList, page, size);
     }
+
 
     @Override
     public List<NewsDto> getNewsByCountry(int page, int size, String country) {
-        return null;
+        List<NewsEntity> newsEntities = newsRepository.findByCountry(country)
+                .orElse(Collections.emptyList());
+        List<NewsDto> newsDtoList = newsEntities.stream()
+                .map(NewsConverter::convertToDto)
+                .collect(Collectors.toList());
+        return getPage(newsDtoList, page, size);
     }
 
     @Override
     public List<NewsDto> getNewsByLanguage(int page, int size, String language) {
-        return null;
+        List<NewsEntity> newsEntities = newsRepository.findByLanguage(language)
+                .orElse(Collections.emptyList());
+        List<NewsDto> newsDtoList = newsEntities.stream()
+                .map(NewsConverter::convertToDto)
+                .collect(Collectors.toList());
+        return getPage(newsDtoList, page, size);
     }
 
     @Override
     public List<NewsDto> getLatestNews() {
-        return null;
+        List<NewsEntity> newsEntities = newsRepository.findTop10ByOrderByPublished_atDesc().orElse(Collections.emptyList());
+        return newsEntities.stream()
+                .map(NewsConverter::convertToDto)
+                .collect(Collectors.toList());
+
     }
 
     private List<NewsDto> getFilteredNews(String source, Date publishedDateStart, Date publishedDateEnd, String titleContains, String country, String language) {
